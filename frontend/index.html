@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI GitHub Repository Assistant</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <svg class="brand-logo" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      <h1 class="brand-title">AI GitHub Repository Assistant</h1>
+    </div>
+
+    <div>
+      <label class="input-label" for="repoUrl">Repository URL:</label>
+      <div class="repo-input-group">
+        <textarea
+          id="repoUrl"
+          class="repo-textarea"
+          placeholder="https://github.com/owner/repository"
+          spellcheck="false"
+        ></textarea>
+        <button id="indexBtn" class="btn-index" onclick="indexRepository()">Index Repo</button>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Files Processed:</div>
+        <div class="stat-value" id="filesProcessedVal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Chunks Indexed:</div>
+        <div class="stat-value" id="chunksIndexedVal">0</div>
+      </div>
+    </div>
+
+    <!-- Indexed Files Card -->
+    <div class="side-card">
+      <div class="side-card-title">Indexed Files</div>
+      <div class="file-list" id="indexedFilesList">
+        <div style="font-size: 13px; color: #64717d; padding: 6px 2px;">
+          Paste any public GitHub repo URL above and click <strong>Index Repo</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested Questions Card -->
+    <div class="side-card">
+      <div class="side-card-title">Suggested Questions</div>
+      <div class="suggested-list">
+        <button class="suggested-btn" onclick="triggerSuggested('How does this project work and which files handle the main logic?')">
+          How does this project work?
+        </button>
+        <button class="suggested-btn" onclick="triggerSuggested('Explain the folder structure and entry point of this repository')">
+          Explain the folder structure & entry point
+        </button>
+        <button class="suggested-btn" onclick="triggerSuggested('What tools, libraries, and dependencies are used in this repository?')">
+          What tools and dependencies are used?
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT CHAT PANEL -->
+  <main class="chat-panel">
+    <div class="chat-window">
+      <header class="chat-header">
+        <div class="chat-header-title">Developer chat</div>
+        <button class="menu-btn" title="Clear Chat" onclick="clearMessages()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="messages-area" id="messagesArea">
+        <div class="status-toast">
+          Enter any public GitHub repository URL on the left and click <strong>Index Repo</strong> to start chatting!
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <form class="chat-input-box" onsubmit="sendMessage(event)">
+          <input
+            type="text"
+            id="questionInput"
+            class="chat-input-field"
+            placeholder="Index a repository first, then ask anything..."
+            autocomplete="off"
+            disabled
+            required
+          />
+          <button type="submit" id="sendBtn" class="btn-send" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

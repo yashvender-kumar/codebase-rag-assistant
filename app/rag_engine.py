@@ -9,7 +9,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-import app.config  # .env load karne ke liye
+import app.config  
 
 
 def get_active_groq_model() -> str:
@@ -23,11 +23,11 @@ def get_active_groq_model() -> str:
     resp.raise_for_status()
     models = [m["id"] for m in resp.json().get("data", [])]
 
-    # Audio, TTS, guard, embedding aur special-terms models ko exclude karein
+    
     excluded = ("whisper", "guard", "tts", "playai", "embed", "orpheus", "vision", "compound")
     chat_models = [m for m in models if not any(x in m.lower() for x in excluded)]
 
-    # Best Llama / chat models ko priority dein
+    # Best Llama 
     preferred = [
         "llama-3.3-70b-versatile",
         "llama-3.1-8b-instant",
@@ -57,7 +57,7 @@ llm = ChatGroq(
 )
 
 CHROMA_DIR = "./chroma_db"
-MAX_CHUNKS = 150  # Fast indexing ke liye optimal chunk limit
+MAX_CHUNKS = 150  
 
 EXTENSION_TO_LANGUAGE = {
     ".py": Language.PYTHON,
@@ -87,7 +87,7 @@ def split_code_documents(files: List[Dict[str, str]]) -> List[Document]:
     """Programming language ke syntax ke hisaab se fast code chunks banata hai."""
     all_chunks = []
 
-    for file in files[:80]:  # Top 80 files tak hi process karein
+    for file in files[:80]:  # Process last 80 files
         if len(all_chunks) >= MAX_CHUNKS:
             break
 
